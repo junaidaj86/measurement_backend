@@ -9,7 +9,8 @@ import com.mjf.measurement.model.Customer;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    Optional<Customer> findByName(String name);
+  Customer findByName(String name);
+    Customer findByPhone(String phone);
 
   Boolean existsByPhone(String phone);
 
