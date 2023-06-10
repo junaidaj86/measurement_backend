@@ -28,31 +28,48 @@ public class Shirt {
     private String length;
     private String neck;
     private String waist;
-    private String left_sleeve;
-    private String right_sleeve;
-    private String left_cuff;
-    private String right_cuff;
-    private String chest;
+    private String sleves;
+    private String sleves_length;
+    private String cuff;
+    private String cuff_size;
+    private String chest_size;
     private String shoulder;
     private String notes;
+    private String fit;
+    private String collar;
+    private String placket;
+    private String seat;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    public Shirt(String length, String neck, String waist, String left_sleeve, String right_sleeve, String left_cuff,
-            String right_cuff, String chest, String shoulder, String notes) {
+    public Shirt(String length, String neck, String waist, String sleves, String sleves_length, String cuff,
+            String cuff_size, String chest_size, String shoulder, String notes, String fit, String collar,
+            String placket, String seat) {
         this.length = length;
         this.neck = neck;
         this.waist = waist;
-        this.left_sleeve = left_sleeve;
-        this.right_sleeve = right_sleeve;
-        this.left_cuff = left_cuff;
-        this.right_cuff = right_cuff;
-        this.chest = chest;
+        this.sleves = sleves;
+        this.sleves_length = sleves_length;
+        this.cuff = cuff;
+        this.cuff_size = cuff_size;
+        this.chest_size = chest_size;
         this.shoulder = shoulder;
         this.notes = notes;
+        this.fit = fit;
+        this.collar = collar;
+        this.placket = placket;
+        this.seat = seat;
     }
 
     
+
+            
+                
+                
+                
+
+               
+                
 
 }
