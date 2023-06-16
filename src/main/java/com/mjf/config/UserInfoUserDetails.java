@@ -17,12 +17,18 @@ public class UserInfoUserDetails implements UserDetails {
     private String password;
     private List<GrantedAuthority> authorities;
 
+    private Long shopId;
+
     public UserInfoUserDetails(UserInfo userInfo) {
         name=userInfo.getName();
         password=userInfo.getPassword();
         authorities= Arrays.stream(userInfo.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+        if(userInfo.getShop() != null && userInfo.getShop().getId() != null){
+          shopId = userInfo.getShop().getId();
+        }
+
     }
 
     @Override
@@ -39,6 +45,8 @@ public class UserInfoUserDetails implements UserDetails {
     public String getUsername() {
         return name;
     }
+
+    public Long getShopId(){ return shopId;}
 
     @Override
     public boolean isAccountNonExpired() {

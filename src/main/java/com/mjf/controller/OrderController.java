@@ -14,6 +14,7 @@ import com.mjf.repository.CustomerRepository;
 import com.mjf.repository.OrderRepository;
 import com.mjf.repository.PantRepository;
 import com.mjf.repository.ShirtRepository;
+import com.mjf.repository.ShopRepository;
 import com.mjf.repository.UserInfoRepository;
 import com.sun.security.auth.UserPrincipal;
 import java.util.List;
@@ -43,15 +44,19 @@ public class OrderController {
 
   UserInfoRepository userInfoRepository;
 
+  ShopRepository shopRepository;
+
 
 
   public OrderController(CustomerRepository customerRepository, ShirtRepository shirtRepository,
-      PantRepository pantRepository, OrderRepository orderRepository, UserInfoRepository userInfoRepository) {
+      PantRepository pantRepository, OrderRepository orderRepository,
+      UserInfoRepository userInfoRepository, ShopRepository shopRepository) {
     this.customerRepository = customerRepository;
     this.shirtRepository = shirtRepository;
     this.pantRepository = pantRepository;
     this.orderRepository = orderRepository;
     this.userInfoRepository = userInfoRepository;
+    this.shopRepository = shopRepository;
   }
 
 
@@ -60,16 +65,8 @@ public class OrderController {
   @PreAuthorize("hasAuthority('ROLE_USER')")
   public ResponseEntity<List<OrderResponse>> getAllOrders(Authentication authentication) {
     UserInfoUserDetails currentUser = (UserInfoUserDetails) authentication.getPrincipal();
-    Optional<UserInfo> userInfo = userInfoRepository.findByName(currentUser.getUsername());
-    List<OrderResponse> orderResponses;
-    if(userInfo.isPresent()){
-      List<Long> shopIds = userInfo.get().getShops().stream()
-                                .map(Shop::getId)
-                                .collect(Collectors.toList());
-      orderResponses = orderRepository.findAllOrderDetails();
-    }else{
-      orderResponses = orderRepository.findAllOrderDetails();
-    }
+    List<OrderResponse> orderResponses = orderRepository.findAllOrderDetailsForShop(currentUser.getShopId());
+
 
     return ResponseEntity.ok(orderResponses);
   }
@@ -78,7 +75,11 @@ public class OrderController {
   @PreAuthorize("hasAuthority('ROLE_USER')")
   public ResponseEntity<?> placeOrder(@Valid @RequestBody OrderDTO orderDto, Authentication authentication) {
     try {
-      UserPrincipal currentUser = (UserPrincipal) authentication.getPrincipal();
+      UserInfoUserDetails currentUser = (UserInfoUserDetails) authentication.getPrincipal();
+      Optional<Shop> shop = null;
+      if(currentUser.getShopId() != null){
+        shop = shopRepository.findById(currentUser.getShopId());
+      }
       Customer customer = null;
       if (!customerRepository.existsByPhone(orderDto.getCustomer().getPhone())) {
         // Create a new customer if the phone number doesn't exist
@@ -94,7 +95,7 @@ public class OrderController {
       Pant pant = pantRepository.save(orderDto.getPant());
 
       // Create the order
-      Order order = new Order(shirt, pant, customer, new Shop());
+      Order order = new Order(shirt, pant, customer, shop.get());
       orderRepository.save(order);
 
     } catch (Exception ex) {

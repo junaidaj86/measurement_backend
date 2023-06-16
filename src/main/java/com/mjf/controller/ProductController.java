@@ -65,9 +65,9 @@ public class ProductController {
       ui.setName(cur.getName());
       ui.setRoles(cur.getRoles());
       ui.setPassword(cur.getPassword());
-      Optional<Shop> shop = shopService.findShopById(cur.getShopId());
+      Optional<Shop> shop = shopService.findShopById( cur.getShopId());
       if(shop.isPresent()){
-        ui.getShops().add(shop.get());
+        ui.setShop(shop.get());
       }
         return service.addUser(ui);
     }

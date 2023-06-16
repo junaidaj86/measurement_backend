@@ -17,4 +17,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
   List<OrderResponse> findAllOrderDetails();
 
 
+  @Query("SELECT new com.mjf.dto.OrderResponse(o, s, p, c) " +
+      "FROM Order o " +
+      "JOIN o.shirt s " +
+      "JOIN o.pant p " +
+      "JOIN o.customer c " +
+      "WHERE o.shop.id = :shopId")
+  List<OrderResponse> findAllOrderDetailsForShop(Long shopId);
+
+
 }

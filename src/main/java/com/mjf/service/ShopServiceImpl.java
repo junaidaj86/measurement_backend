@@ -26,7 +26,7 @@ public class ShopServiceImpl implements ShopService{
   }
 
   @Override
-  public Optional<Shop> findShopById(final int id) {
+  public Optional<Shop> findShopById(final Long id) {
     return shopRepository.findById(id);
   }
 }

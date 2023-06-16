@@ -8,5 +8,5 @@ public interface ShopService {
 
   public String createShop(Shop shop);
   public List<Shop> fetchShop();
-  public Optional<Shop> findShopById(int id);
+  public Optional<Shop> findShopById(Long id);
 }

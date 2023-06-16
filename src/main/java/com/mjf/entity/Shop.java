@@ -25,8 +25,7 @@ public class Shop {
 
   private String Address;
 
-  @ManyToMany(mappedBy = "shops")
-  private Set<UserInfo> users = new HashSet<>();
+
 
 
 }

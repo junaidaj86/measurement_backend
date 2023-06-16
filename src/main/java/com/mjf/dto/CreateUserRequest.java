@@ -13,5 +13,5 @@ public class CreateUserRequest {
   private String email;
   private String password;
   private String roles;
-  private int shopId;
+  private Long shopId;
 }
