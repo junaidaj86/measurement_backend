@@ -19,6 +19,8 @@ public class UserInfoUserDetails implements UserDetails {
 
     private Long shopId;
 
+    private String role;
+
     public UserInfoUserDetails(UserInfo userInfo) {
         name=userInfo.getName();
         password=userInfo.getPassword();
@@ -28,6 +30,7 @@ public class UserInfoUserDetails implements UserDetails {
         if(userInfo.getShop() != null && userInfo.getShop().getId() != null){
           shopId = userInfo.getShop().getId();
         }
+        role = userInfo.getRoles();
 
     }
 
@@ -47,6 +50,8 @@ public class UserInfoUserDetails implements UserDetails {
     }
 
     public Long getShopId(){ return shopId;}
+
+  public String getRole(){ return role;}
 
     @Override
     public boolean isAccountNonExpired() {

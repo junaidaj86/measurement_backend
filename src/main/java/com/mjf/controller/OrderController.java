@@ -62,10 +62,17 @@ public class OrderController {
 
 
   @GetMapping("/user/order")
-  @PreAuthorize("hasAuthority('ROLE_USER')")
+  @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
   public ResponseEntity<List<OrderResponse>> getAllOrders(Authentication authentication) {
     UserInfoUserDetails currentUser = (UserInfoUserDetails) authentication.getPrincipal();
-    List<OrderResponse> orderResponses = orderRepository.findAllOrderDetailsForShop(currentUser.getShopId());
+    List<OrderResponse> orderResponses;
+    if((currentUser.getRole()).equals("ROLE_USER")){
+      orderResponses = orderRepository.findAllOrderDetailsForShop(currentUser.getShopId());
+    }else{
+      orderResponses = orderRepository.findAllOrderDetails();
+    }
+
+
 
 
     return ResponseEntity.ok(orderResponses);
