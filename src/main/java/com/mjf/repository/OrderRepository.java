@@ -5,6 +5,7 @@ import com.mjf.entity.Order;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 @Repository
@@ -24,6 +25,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
       "JOIN o.customer c " +
       "WHERE o.shop.id = :shopId")
   List<OrderResponse> findAllOrderDetailsForShop(Long shopId);
+
+  @Modifying
+  @Query("update Order o set o.orderStatus = 'Assigned' where o.id < :orderId")
+  void updateStatus(Long orderId);
 
 
 }
