@@ -1,0 +1,43 @@
+package com.mjf.entity;
+
+
+
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "shops")
+@NoArgsConstructor
+@Data
+public class Factory {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  private String name;
+
+  private String Address;
+
+
+  private int maxShirtsCapacity;
+
+
+  private int maxPantsCapacity;
+
+  private int maxJacketCapacity;
+
+
+
+
+}
+
+

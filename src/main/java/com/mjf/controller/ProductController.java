@@ -58,7 +58,7 @@ public class ProductController {
         return "Welcome this endpoint is not secure";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/admin/register")
     public String addNewUser(@RequestBody CreateUserRequest cur) {
       UserInfo ui = new UserInfo();
       ui.setEmail(cur.getEmail());
