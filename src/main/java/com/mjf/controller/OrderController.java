@@ -113,7 +113,7 @@ public class OrderController {
       // Create the order
       Order order = new Order(generateOrderNumber(shop.get().getName()),shirt, pant, customer,
                               shop.get(), createDate, deliverDate,
-                              "Not-ASSIGNED");
+                              "Punched");
       orderRepository.save(order);
 
     } catch (Exception ex) {

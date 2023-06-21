@@ -17,6 +17,7 @@ import com.mjf.service.ShopService;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -87,6 +88,7 @@ public class ProductController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+      try{
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
           UserInfoUserDetails userDetails = (UserInfoUserDetails) authentication.getPrincipal();
@@ -101,8 +103,13 @@ public class ProductController {
                                                    roles));
 
         } else {
-            throw new UsernameNotFoundException("invalid user request !");
+          throw new UsernameNotFoundException("invalid user request !");
         }
+      }catch (Exception e){
+        System.out.println("error");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+      }
+
     }
 
 
